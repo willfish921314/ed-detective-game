@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>急診未解事件：消失的外褲</title>
+<style>
+:root{--bg:#081019;--panel:#111923;--line:#294057;--txt:#edf5fb;--muted:#91a5b7;--cyan:#60d6ff;--green:#5ee58f;--yellow:#ffd166;--red:#ff6b6b;--purple:#b794f6}
+*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at 20% 0,#142536,#081019 48%,#05090e);color:var(--txt);font-family:"Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;min-height:100%}
+body{min-height:100vh}.app{max-width:1280px;margin:auto;padding:18px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.brand{font-weight:900;letter-spacing:.08em}.brand small{display:block;color:var(--muted);font-weight:500;font-size:12px}.topActions{display:flex;gap:8px}.pill,.iconBtn{border:1px solid var(--line);background:#0f1720;color:var(--txt);border-radius:999px;padding:8px 12px}.iconBtn{width:42px;height:42px;padding:0}
+.screen{display:none}.screen.active{display:block}.panel{background:linear-gradient(180deg,rgba(17,25,35,.98),rgba(9,15,22,.98));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.kicker{color:var(--cyan);font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:13px}h1{font-size:clamp(34px,6vw,68px);line-height:1.03;margin:.25em 0}h2{font-size:clamp(24px,3vw,36px)}p{line-height:1.75}.muted{color:var(--muted)}.small{font-size:13px}
+.notice{border-left:4px solid var(--cyan);background:#0d1720;border-radius:12px;padding:14px 16px;margin:14px 0}.notice.warn{border-color:var(--yellow)}.notice.bad{border-color:var(--red)}.notice.ok{border-color:var(--green)}
+.btn{border:0;border-radius:12px;background:linear-gradient(180deg,#6be0ff,#48a7ff);color:#061019;font-weight:900;padding:12px 18px;cursor:pointer}.btn.secondary{background:#172433;color:var(--txt);border:1px solid var(--line)}.btn.good{background:linear-gradient(180deg,#76ef9f,#45c879);color:#05210d}.btn:disabled{opacity:.35;cursor:not-allowed}
+.hero{min-height:72vh;display:flex;align-items:center}.heroText{max-width:850px}.bigCase{font-size:clamp(26px,4vw,54px);font-weight:1000}
+.layout{display:grid;grid-template-columns:minmax(0,2.15fr) minmax(280px,.85fr);gap:16px}@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.sceneWrap{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#0b141d;min-height:650px}.sceneHead{display:flex;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:#0c151e}.objective{padding:10px 12px;border-radius:12px;background:#0b2230;border:1px solid #234a61;color:#ccecff;font-weight:800}
+.sceneSvg{display:block;width:100%;height:520px;background:linear-gradient(180deg,#d9edf2 0 62%,#c4d8dc 62%)}.hotspot{cursor:pointer;transition:.18s;transform-box:fill-box;transform-origin:center}.hotspot:hover{filter:drop-shadow(0 0 8px rgba(96,214,255,.95));transform:scale(1.025)}
+.searchOverlay{position:absolute;inset:58px 0 130px;background:rgba(4,10,15,.75);display:none;place-items:center;z-index:20}.searchOverlay.show{display:grid}.magnify{width:88px;height:88px;border:8px solid var(--cyan);border-radius:50%;position:relative;animation:searchMove 1.05s ease-in-out infinite}.magnify:after{content:"";position:absolute;width:48px;height:8px;background:var(--cyan);right:-36px;bottom:-18px;transform:rotate(45deg);border-radius:8px}@keyframes searchMove{0%{transform:translate(-55px,-20px)}50%{transform:translate(55px,20px)}100%{transform:translate(-55px,-20px)}}
+.dialogue{min-height:130px;padding:15px 16px;border-top:1px solid var(--line);background:#0d1620}.speaker{font-weight:900;color:var(--cyan);margin-bottom:6px}.choices{display:grid;gap:8px;margin-top:12px}.choice{background:#152332;color:var(--txt);border:1px solid #31485e;border-radius:12px;padding:12px 14px;text-align:left;cursor:pointer}.choice:hover{background:#1d3042}
+.side{display:flex;flex-direction:column;gap:14px}.map,.evidenceBoard{background:#0d1620;border:1px solid var(--line);border-radius:16px;padding:12px}.mapGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.room{min-height:74px;border:1px solid #33495e;background:#13202c;color:var(--txt);border-radius:10px;padding:8px;font-size:13px;cursor:pointer}.room.current{outline:2px solid var(--cyan);background:#163147}.room.locked{opacity:.45}.evidenceBoard{position:sticky;top:12px}.eviHead{display:flex;justify-content:space-between;align-items:center}.counter{font-weight:900;color:var(--yellow)}
+.cardGrid{display:grid;gap:9px;margin-top:10px}.card{height:98px;perspective:900px;cursor:pointer}.cardInner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}.card.flipped .cardInner{transform:rotateY(180deg)}.cardFace{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;border:1px solid var(--line);padding:10px;background:#152332}.cardBack{transform:rotateY(180deg);background:#192837}.card.locked{opacity:.48;cursor:not-allowed}.card.red .cardBack{border-color:#704e4e;background:#261a1d}.label{font-size:12px;color:var(--muted)}.progressLine{height:5px;background:#16212b;border-radius:99px;overflow:hidden;margin-top:10px}.progressLine>div{height:100%;background:linear-gradient(90deg,#4fa3ff,var(--cyan));width:0;transition:.35s}
+.modal{position:fixed;inset:0;background:rgba(2,7,11,.82);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}.modalBox{width:min(720px,96vw);background:#111a24;border:1px solid var(--line);border-radius:18px;padding:22px}.npc{display:flex;gap:14px}.avatar{width:84px;height:84px;border-radius:50%;background:#223141;display:grid;place-items:center;font-size:44px;border:2px solid #39566f;flex:0 0 auto}
+.glitchScreen{position:fixed;inset:0;background:#000;color:#fff;z-index:200;display:none;place-items:center;text-align:center;overflow:hidden}.glitchScreen.show{display:grid}.glitchText{font-size:clamp(42px,9vw,110px);font-weight:1000;letter-spacing:.08em;position:relative;animation:glitch 110ms infinite}.glitchText:before,.glitchText:after{content:attr(data-text);position:absolute;inset:0}.glitchText:before{transform:translate(5px,0);color:#ff3b78;clip-path:inset(0 0 48% 0)}.glitchText:after{transform:translate(-5px,0);color:#2cf7ff;clip-path:inset(52% 0 0 0)}@keyframes glitch{0%{transform:translate(0)}25%{transform:translate(-3px,2px)}50%{transform:translate(4px,-2px)}75%{transform:translate(-2px,-1px)}100%{transform:translate(0)}}.scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.04) 4px)}.shake{animation:shake .35s linear 3}@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(-8px,2px)}50%{transform:translate(8px,-2px)}75%{transform:translate(-5px,1px)}}
+.timeline{display:flex;gap:8px;flex-wrap:wrap}.timechip{border:1px solid var(--line);background:#111d28;border-radius:999px;padding:8px 10px}.dragArea{display:grid;grid-template-columns:1.2fr 2fr;gap:14px}@media(max-width:800px){.dragArea{grid-template-columns:1fr}}.cluePool{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}.clueChip{padding:9px 11px;background:#183044;border:1px solid #3e6481;border-radius:10px;cursor:grab;user-select:none}.needZones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}@media(max-width:650px){.needZones{grid-template-columns:1fr}}.zone{min-height:116px;border:1px dashed #476681;border-radius:12px;padding:10px;background:#0e1720}.zone.over{outline:2px solid var(--cyan);background:#102431}.zone .clueChip{margin:4px 4px 0 0;display:inline-block;font-size:13px}
+.roleCard{max-width:760px;margin:18px auto;border:1px solid var(--line);border-radius:20px;padding:22px;background:linear-gradient(145deg,#172534,#0e1620)}.bars{display:grid;gap:12px}.bar{height:13px;background:#101820;border:1px solid var(--line);border-radius:999px;overflow:hidden}.bar div{height:100%;background:linear-gradient(90deg,#4fa3ff,var(--purple));transition:width .8s}.ending{min-height:65vh;display:grid;place-items:center;text-align:center}.badEnding{background:radial-gradient(circle,#2b1316 0,#0a0a0a 65%);border-color:#5a242a}.caseClosed{background:radial-gradient(circle at 50% 20%,#103425 0,#0b1714 45%,#07100e 100%);border-color:#23563f}hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+</style>
+
+<style>
+/* ===== 20–30 人現場手機版追加樣式 ===== */
+.mobileStep{
+  position:sticky;top:0;z-index:70;margin:-18px -18px 12px;padding:9px 14px;
+  background:rgba(6,12,18,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:10px
+}
+.mobileStep .track{height:6px;flex:1;background:#15202a;border-radius:99px;overflow:hidden}
+.mobileStep .track div{height:100%;width:8%;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:.45s}
+.mobileStep .stepText{font-size:12px;color:var(--muted);white-space:nowrap}
+.eviToggle{display:none;width:100%;margin-bottom:8px}
+.selectedClue{outline:3px solid var(--yellow)!important;background:#342d16!important;transform:scale(1.02)}
+.zoneTap{cursor:pointer;min-height:94px}
+.zoneTap:active{transform:scale(.985)}
+.zoneCount{float:right;color:var(--yellow);font-size:12px}
+.mobileHint{display:none}
+.shareRow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);
+  background:#172433;border:1px solid var(--line);border-radius:999px;padding:10px 16px;
+  opacity:0;pointer-events:none;z-index:400;transition:.25s;box-shadow:var(--shadow)
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:900px){
+  .app{padding:10px}
+  .topbar{margin-bottom:10px}
+  .brand{font-size:14px}
+  .brand small{font-size:10px}
+  .pill{display:none}
+  .panel{border-radius:15px;padding:16px}
+  h1{font-size:36px}
+  h2{font-size:26px}
+  p{line-height:1.65}
+  .hero{min-height:calc(100vh - 85px)}
+  .bigCase{font-size:27px;line-height:1.25}
+  .layout{display:block}
+  .sceneWrap{min-height:auto;border-radius:14px}
+  .sceneSvg{height:auto;aspect-ratio:1000/600;touch-action:manipulation}
+  .sceneHead{padding:11px 12px;align-items:flex-start}
+  .objective{font-size:12px;padding:7px 9px;max-width:46%}
+  .dialogue{min-height:150px;padding:14px 12px}
+  .choice,.btn{min-height:50px;font-size:16px}
+  .choices{gap:9px}
+  .side{margin-top:12px}
+  .mapGrid{grid-template-columns:repeat(2,1fr)}
+  .room{min-height:66px;font-size:13px}
+  .evidenceBoard{position:static}
+  .eviToggle{display:block}
+  .cardGrid.mobileCollapsed{display:none}
+  .evidenceBoard hr,.evidenceBoard #theoryBtn{display:none}
+  .evidenceBoard.open hr,.evidenceBoard.open #theoryBtn{display:block}
+  .evidenceBoard.open .cardGrid{display:grid}
+  .card{height:108px}
+  .mobileHint{display:block;color:var(--muted);font-size:13px;margin:8px 0}
+  .dragArea{grid-template-columns:1fr}
+  .needZones{grid-template-columns:1fr}
+  .cluePool{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .clueChip{cursor:pointer;text-align:center;padding:12px 8px;min-height:52px;display:grid;place-items:center}
+  .zoneTap{min-height:76px}
+  .roleCard{padding:18px}
+  .ending{min-height:calc(100vh - 110px)}
+}
+@media(max-width:420px){
+  .cluePool{grid-template-columns:1fr 1fr}
+  .topActions{gap:4px}
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+<div class="mobileStep">
+  <span class="stepText" id="stepText">案件開始</span>
+  <div class="track"><div id="stepBar"></div></div>
+</div>
+<div class="topbar"><div class="brand">ED CASE FILES<small>急診未解事件・單機密室逃脫版</small></div><div class="topActions"><div class="pill">CASE 02</div><button class="iconBtn" id="soundBtn" onclick="toggleSound()">🔊</button></div></div>
+
+<section id="start" class="screen active"><div class="panel hero"><div class="heroText">
+<div class="kicker">Emergency Mystery</div><h1>消失的外褲</h1>
+<div class="notice"><strong>22:10</strong><br>準備離院的林阿公身穿手術衣、包著尿布，突然堅持表示：<br><br>👴「啊，我的褲子哩？裡面還有我的錢跟證件！」</div>
+<p>急診人員已經找了 20 分鐘。</p><div class="bigCase">請查明：林阿公的褲子到底去哪了？</div>
+<p class="muted">點擊場景、詢問 NPC、翻閱證物、排除假線索。你的選擇會影響結局與最後的「護理偵探類型」。</p>
+<button class="btn" onclick="begin()">進入急診</button></div></div></section>
+
+<section id="game" class="screen"><div class="layout"><div><div class="sceneWrap">
+<div class="sceneHead"><div><strong id="sceneTitle">第一幕｜案發現場</strong><div class="small muted">急診病床區 ED-07</div></div><div class="objective">🔍 找到外褲去哪裡</div></div>
+<svg class="sceneSvg" viewBox="0 0 1000 600">
+<defs><linearGradient id="wall" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#dff2f4"/><stop offset="1" stop-color="#cfe3e5"/></linearGradient><linearGradient id="floor" x1="0" x2="1"><stop offset="0" stop-color="#c5d5d8"/><stop offset="1" stop-color="#b5c7ca"/></linearGradient></defs>
+<rect width="1000" height="385" fill="url(#wall)"/><rect y="385" width="1000" height="215" fill="url(#floor)"/><rect y="350" width="1000" height="8" fill="#91aeb4"/>
+<rect x="44" y="48" width="280" height="120" rx="10" fill="#f8ffff" stroke="#7ca4ad" stroke-width="4"/><text x="64" y="80" fill="#35515a" font-size="24" font-weight="700">ED-07 林○○</text><text x="64" y="112" fill="#49646c" font-size="19">Fever / drowsy</text><text x="64" y="144" fill="#49646c" font-size="19">Disposition: discharge</text>
+<rect x="820" y="0" width="12" height="350" fill="#657d82"/><path d="M832 30 Q900 65 970 32 L970 350 L832 350 Z" fill="#acd9dc"/>
+<rect x="190" y="300" width="535" height="115" rx="20" fill="#f7fbfd" stroke="#6f939d" stroke-width="5"/><rect x="212" y="322" width="490" height="58" rx="12" fill="#e4eef2"/><rect x="210" y="382" width="510" height="24" rx="8" fill="#7595a0"/><line x1="240" y1="408" x2="220" y2="505" stroke="#5f737a" stroke-width="12"/><line x1="680" y1="408" x2="700" y2="505" stroke="#5f737a" stroke-width="12"/><circle cx="216" cy="515" r="18" fill="#42545b"/><circle cx="704" cy="515" r="18" fill="#42545b"/>
+<g class="hotspot" onclick="clickObject('grandpa')"><circle cx="520" cy="271" r="38" fill="#e4bf9d" stroke="#8f6d54" stroke-width="3"/><path d="M486 260 Q520 225 555 260 Q544 238 520 236 Q498 237 486 260" fill="#e9edf0"/><circle cx="507" cy="270" r="3" fill="#26333a"/><circle cx="532" cy="270" r="3" fill="#26333a"/><path d="M507 291 Q520 300 533 291" stroke="#825f4b" fill="none" stroke-width="3"/><path d="M450 315 Q520 285 595 320 L610 370 L430 370 Z" fill="#c9d7df" stroke="#8799a3" stroke-width="3"/><text x="476" y="350" fill="#51646d" font-size="18">林阿公</text></g>
+<g class="hotspot" onclick="clickObject('blanket')"><path d="M250 325 Q350 300 450 322 L450 375 L250 375 Z" fill="#8bc9df" stroke="#5c97aa" stroke-width="3"/><text x="315" y="355" fill="#174c5d" font-size="18" font-weight="700">棉被</text></g>
+<g class="hotspot" onclick="clickObject('cabinet')"><rect x="745" y="325" width="115" height="135" rx="8" fill="#e7f0f2" stroke="#6f8992" stroke-width="4"/><rect x="765" y="344" width="74" height="35" rx="4" fill="#c6d7da"/><rect x="765" y="392" width="74" height="48" rx="4" fill="#c6d7da"/><text x="758" y="482" fill="#314951" font-size="17">床旁櫃</text></g>
+<g class="hotspot" onclick="clickObject('underbed')"><ellipse cx="430" cy="505" rx="105" ry="22" fill="#6d7f86" opacity=".18"/><path d="M380 490 q18-18 36 0 q-18 22-36 0" fill="#575f67"/><rect x="445" y="486" width="48" height="18" rx="4" fill="#f1f1eb"/><rect x="510" y="482" width="55" height="24" rx="4" fill="#c8b08b"/><text x="382" y="548" fill="#344a52" font-size="18" font-weight="700">床底</text></g>
+<g class="hotspot" onclick="goRoom('laundry')"><rect x="44" y="390" width="115" height="150" rx="16" fill="#8fb3bf" stroke="#527783" stroke-width="4"/><rect x="62" y="370" width="80" height="30" rx="9" fill="#708f99"/><path d="M73 425 q36-28 72 0 v70 q-36 25-72 0z" fill="#394954"/><text x="58" y="570" fill="#344a52" font-size="17" font-weight="700">污衣桶</text></g>
+<g class="hotspot" onclick="goRoom('nurse')"><rect x="850" y="150" width="120" height="155" rx="6" fill="#eef8fa" stroke="#6d909a" stroke-width="4"/><rect x="865" y="175" width="90" height="50" rx="5" fill="#91c2ce"/><text x="867" y="265" fill="#36545c" font-size="17" font-weight="700">護理站</text></g>
+</svg>
+<div class="searchOverlay" id="searchOverlay"><div><div class="magnify"></div><div style="margin-top:28px;text-align:center;font-weight:900">SEARCHING...</div></div></div>
+<div class="dialogue"><div class="speaker" id="speaker">系統</div><div id="dialogText">點擊病床周圍的物件開始搜尋。</div><div class="choices" id="dialogChoices"></div></div>
+</div></div>
+<aside class="side"><div class="map"><h3>🗺️ 急診平面圖</h3><div class="mapGrid">
+<button class="room current" id="roomBed" onclick="goRoom('bed')">🛏️ 病床區</button><button class="room" id="roomNurse" onclick="goRoom('nurse')">🧑‍⚕️ 護理站</button><button class="room" id="roomLaundry" onclick="goRoom('laundry')">🧺 污衣間</button><button class="room" id="roomEntrance" onclick="goRoom('entrance')">🚪 急診入口</button><button class="room locked" id="roomEMS" onclick="goRoom('ems')">🚑 119資料室<br>🔒</button><button class="room locked" id="roomExit" onclick="attemptTheory()">🧩 推理室<br>🔒</button>
+</div></div>
+<div class="evidenceBoard" id="evidenceBoard">
+<button class="btn secondary eviToggle" onclick="toggleEvidence()">🗂️ 打開／收合證物袋</button>
+<div class="eviHead"><h3>🗂️ 證物板</h3><div class="counter" id="eviCounter">證物 0 / ?</div></div>
+<div class="cardGrid mobileCollapsed" id="cardGrid"></div>
+<div class="progressLine"><div id="eviProgress"></div></div>
+<hr><button class="btn secondary" id="theoryBtn" onclick="attemptTheory()" disabled>進入推理</button></div>
+</aside></div></section>
+
+<section id="theory" class="screen"><div class="panel"><div class="kicker">Inference Room</div><h2>第三幕｜口供開始對不上了</h2><div class="notice warn">👴 林阿公：「我的褲子一定在這裡啦！我不可能穿內褲出門！」<br>👩‍⚕️ 護理師：「阿公，那你今天怎麼來醫院的？」<br>👴 林阿公：「我坐計程車來的啊！」</div><h3>🔎 推理時間：阿公的褲子最可能在哪個環節消失？</h3><div class="choices"><button class="choice" onclick="pickTheory(0)">① 119 運送途中</button><button class="choice" onclick="pickTheory(1)">② 急診治療時被脫掉</button><button class="choice" onclick="pickTheory(2)">③ 尿床更衣時被當污衣處理</button></div><div id="theoryResult" class="notice" style="display:none"></div></div></section>
+
+<section id="fakeSolved" class="screen"><div class="panel ending"><div><div class="kicker">CASE SOLVED</div><h1>《消失的外褲》</h1><p style="font-size:22px">真相：<strong>阿公到院時就沒有外褲。</strong></p><div class="notice ok" style="text-align:left;max-width:660px;margin:18px auto">✓ 急診沒有弄丟褲子<br>✓ 阿公的記憶與事實不符<br>✓ 財物並非於急診遺失</div><button class="btn good" onclick="tryExit()">【離開遊戲】</button></div></div></section>
+
+<section id="reopen" class="screen"><div class="panel"><div class="kicker">CASE REOPENED</div><h2>第四幕｜你真的破案了嗎？</h2><p>時間軸正在倒轉……</p><div class="timeline"><span class="timechip">18:42 119送入</span><span class="timechip">18:55 尿套</span><span class="timechip">19:40 拉扯尿套</span><span class="timechip">20:10 尿床</span><span class="timechip">21:50 可離院</span></div><div class="notice"><strong>19:40</strong><br>林阿公坐起、正在拉尿套。<br><br>👴「我要尿尿。」</div><h3>你會怎麼處理？</h3><div class="choices"><button class="choice" onclick="urineChoice('action')">A｜「阿公，你有尿套，直接尿就好了。」</button><button class="choice" onclick="urineChoice('clue')">B｜「不要再拉了，這個就是讓你尿尿用的。」</button><button class="choice" onclick="urineChoice('aware')">C｜「你是不是想起來去廁所？」</button></div><div id="urineResult" class="notice" style="display:none"></div></div></section>
+
+<section id="needs" class="screen"><div class="panel"><div class="kicker">Reassessment</div><h2>第五幕｜重新調查「阿公的需求」</h2><div class="notice">原本任務：<s>🔍 外褲在哪裡？</s><br>現在任務：<strong>🔍 阿公真正沒有被解決的是什麼？</strong></div>
+<p class="mobileHint">📱 手機玩法：先點一張「案件線索」，再點下面最相關的「需求框」。選錯也可以重新選。</p>
+<p>請把至少 5 個線索放入至少 3 種需求。這不是考試，重點是你怎麼整理眼前資訊。</p>
+<div class="dragArea"><div><h3>① 點選案件線索</h3><div class="cluePool" id="cluePool"></div></div><div><h3>② 再點需求框</h3><div class="needZones" id="needZones"></div></div></div><hr><button class="btn" id="finishDragBtn" onclick="finishDrag()" disabled>完成重新調查</button></div></section>
+
+<section id="discharge" class="screen"><div class="panel"><div class="kicker">Final Clinical Scene</div><h2>🕙 21:50　醫師：「可以回家了。」</h2><div class="notice warn">床上的林阿公：<br>・穿手術衣＋尿布<br>・沒有外褲<br>・沒有錢<br>・只有健保卡<br>・堅信自己的褲子在急診不見<br>・家屬沒有出現</div><h2>【現在，你會按下「完成出院」嗎？】</h2><div class="choices"><button class="choice" onclick="dischargePick('yes')">A｜會。醫師已經評估可以出院，治療完成。</button><button class="choice" onclick="dischargePick('no')">B｜不會。目前還有需要進一步確認／處理的問題。</button></div><div id="dischargeFollow" class="notice" style="display:none"></div></div></section>
+
+<section id="profile" class="screen"><div class="panel"><div class="kicker">Detective Profile</div><h2>🕵️ 系統正在分析你的辦案紀錄……</h2><div class="bars"><div><div style="display:flex;justify-content:space-between"><span>⚡ ACTION 行動力</span><strong id="aVal"></strong></div><div class="bar"><div id="aBar"></div></div></div><div><div style="display:flex;justify-content:space-between"><span>🔍 CLUE 線索力</span><strong id="cVal"></strong></div><div class="bar"><div id="cBar"></div></div></div><div><div style="display:flex;justify-content:space-between"><span>🧭 AWARE 覺察力</span><strong id="wVal"></strong></div><div class="bar"><div id="wBar"></div></div></div></div><div id="profileCard" class="roleCard"></div>
+<div class="shareRow">
+  <button class="btn secondary" onclick="saveRoleCard()">📸 儲存我的角色卡</button>
+  <button class="btn secondary" onclick="shareResult()">📤 分享結果</button>
+  <button class="btn" onclick="finalEnding()">查看最終結局</button>
+</div></div></section>
+
+<section id="goodEnding" class="screen"><div class="panel ending caseClosed"><div><div class="kicker">CASE CLOSED</div><h1>👖 褲子：沒來過<br>💰 錢：沒來過<br>🚕 計程車：也沒來過</h1><div class="notice ok" style="max-width:670px;margin:auto"><strong>本案最大線索：</strong><br><br><span style="font-size:28px">多問一句。</span></div><p style="font-size:22px">有時候，線索不在床底，<br><strong>在病人還沒說完的下一句。</strong></p><button class="btn secondary" onclick="location.reload()">重新開始</button></div></div></section>
+
+<section id="badEnding" class="screen"><div class="panel ending badEnding"><div><div class="kicker" style="color:var(--red)">BAD ENDING</div><h1>🚪 出院流程已完成</h1><div class="notice bad" style="max-width:690px;margin:auto;text-align:left">醫療處置結束了，但林阿公仍沒有外褲、沒有錢、對事件認知不一致，也沒有明確返家支持。</div><p>你完成了流程。<br><strong>但這個案件，還沒有真正結束。</strong></p><button class="btn" onclick="badRecovery()">重新檢視最後一幕</button></div></div></section>
+</div>
+
+<div class="toast" id="toast">已完成</div>
+<div class="modal" id="modal"><div class="modalBox" id="modalBox"></div></div>
+<div class="glitchScreen" id="glitch"><div class="scanlines"></div><div><div class="glitchText" data-text="SYSTEM ERROR">SYSTEM ERROR</div><p style="font-size:24px">⚠️ 無法結案</p><p>尚有未解決事件。</p></div></div>
+
+<script>
+const G={sound:true,a:0,c:0,w:0,evidence:{},taxiAsked:false,emsUnlocked:false,theoryUnlocked:false,dragged:0,zonesUsed:new Set()};
+const E={record:{title:'證物 A｜護理紀錄',desc:'19:40 病人反覆拉扯尿套；20:10 床單尿濕，更換手術衣及尿布。'},taxi:{title:'證物 B｜阿公口供',desc:'「我是坐計程車來的。」'},pants:{title:'證物 C｜污衣間長褲',desc:'深色長褲，尺寸似乎符合；姓名標示：林阿嬤。非本案病人物品。',red:true},ems:{title:'證物 D｜119紀錄',desc:'到院衣著：內褲；隨身物品：健保卡一張。'},valuables:{title:'證物 E｜重要財物',desc:'阿公表示證件與金錢都在「那件褲子」裡。'}};
+const q=id=>document.getElementById(id);
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));q(id).classList.add('active');scrollTo({top:0,behavior:'smooth'})}
+function tone(f=500,d=.08,type='sine',v=.025){if(!G.sound)return;const ac=tone.ac||(tone.ac=new(window.AudioContext||window.webkitAudioContext)());const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(ac.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.stop(ac.currentTime+d)}
+function clickS(){tone(420,.05,'square',.015)}function okS(){tone(520,.08);setTimeout(()=>tone(760,.11),90)}function errS(){tone(140,.16,'sawtooth',.035)}
+function toggleSound(){G.sound=!G.sound;q('soundBtn').textContent=G.sound?'🔊':'🔇';if(G.sound)clickS()}function begin(){clickS();show('game');renderEvidence()}
+function setD(s,t,choices=[]){q('speaker').textContent=s;q('dialogText').innerHTML=t;q('dialogChoices').innerHTML='';choices.forEach(x=>{const b=document.createElement('button');b.className='choice';b.textContent=x[0];b.onclick=x[1];q('dialogChoices').appendChild(b)})}
+function searching(cb){q('searchOverlay').classList.add('show');tone(300,.07,'triangle',.012);setTimeout(()=>{q('searchOverlay').classList.remove('show');cb()},850)}
+function addEv(k){if(G.evidence[k])return;G.evidence[k]=1;okS();renderEvidence()}
+function renderEvidence(){const g=q('cardGrid');g.innerHTML='';Object.entries(E).forEach(([k,e],i)=>{const found=!!G.evidence[k],c=document.createElement('div');c.className='card'+(found?'':' locked')+(e.red?' red':'');c.innerHTML=`<div class="cardInner"><div class="cardFace"><div class="label">${String.fromCharCode(65+i)}</div><strong>${found?e.title:'🔒 尚未取得'}</strong><div class="small muted">${found?'點擊翻牌':'需要繼續調查'}</div></div><div class="cardFace cardBack"><strong>${e.title}</strong><p class="small">${e.desc}</p></div></div>`;if(found)c.onclick=()=>{clickS();c.classList.toggle('flipped')};g.appendChild(c)});const n=Object.keys(G.evidence).length;q('eviCounter').textContent=`證物 ${n} / ?`;q('eviProgress').style.width=(n/5*100)+'%';G.theoryUnlocked=!!(G.evidence.record&&G.evidence.taxi&&G.evidence.ems);q('theoryBtn').disabled=!G.theoryUnlocked;q('roomExit').classList.toggle('locked',!G.theoryUnlocked)}
+function clickObject(o){clickS();if(o==='blanket')searching(()=>setD('搜尋結果','你掀開棉被。<br><strong>沒有任何東西。</strong>'));if(o==='underbed'){G.a++;searching(()=>setD('搜尋結果','床底找到：🩴 一隻拖鞋、🧻 一包衛生紙、💊 不明藥袋。<br><strong>沒有褲子。</strong>'))}if(o==='cabinet'){G.c++;searching(()=>setD('搜尋結果','床旁櫃只有空水杯、紙巾與護理用品。<br><strong>沒有褲子，也沒有錢包。</strong>'))}if(o==='grandpa')talkGrandpa()}
+function currentRoom(id){document.querySelectorAll('.room').forEach(x=>x.classList.remove('current'));q(id)?.classList.add('current')}
+function goRoom(r){clickS();const ids={bed:'roomBed',nurse:'roomNurse',laundry:'roomLaundry',entrance:'roomEntrance',ems:'roomEMS'};currentRoom(ids[r]);if(r==='bed')setD('系統','回到 ED-07。林阿公還在問：「我的褲子咧？」');if(r==='nurse')openNPC('🧑‍⚕️','主護理師','「他一直拉尿套，我都幫他裝好了。後來尿床，就幫他換手術衣跟尿布。」',[['查看護理紀錄',()=>{G.c+=2;addEv('record');closeModal();setD('護理紀錄','18:42　119送入<br>Fever, drowsy<br>18:55　協助尿套使用<br>19:40　病人反覆坐起、拉扯尿套<br>20:10　床單尿濕，更換手術衣及尿布<br>21:50　醫師評估可離院')}],['「他拉尿套時有說什麼？」',()=>{G.w+=2;closeModal();setD('主護理師','「好像一直說要尿尿。」')}],['「更衣時有看到外褲嗎？」',()=>{G.c++;closeModal();setD('主護理師','「我沒有印象看到外褲，那時候忙著處理床單。」')}]]);if(r==='laundry')searching(()=>{G.c+=2;addEv('pants');setD('污衣間','發現一件<strong>深色長褲</strong>，尺寸似乎符合！<br><br>翻開標示——❌ 姓名：<strong>林阿嬤</strong><br><span style="color:#ff6b6b">RED HERRING：不是本案病人物品。</span>')});if(r==='entrance'){if(!G.taxiAsked)setD('急診入口','你不知道要找什麼。也許先問林阿公：<strong>「你今天怎麼來醫院的？」</strong>');else{G.a++;searching(()=>setD('急診入口','你查了門口與接送紀錄。<br><strong>沒有找到計程車的佐證。</strong>'))}}if(r==='ems'){if(!G.emsUnlocked){errS();setD('系統','🚑 119 資料室尚未解鎖。<br>需要先發現「阿公怎麼來醫院」的口供矛盾。');return}searching(()=>{G.c+=3;addEv('ems');setD('119 救護紀錄','🚑 到院衣著：<strong>內褲</strong><br>🎒 隨身物品：<strong>健保卡一張</strong><br>👩 長照照服員協助聯絡 119 送醫。<br><br><strong>⚠️ 阿公說「計程車」，紀錄卻是「119」。</strong>')})}}
+function openNPC(em,name,text,acts){q('modalBox').innerHTML=`<div class="npc"><div class="avatar">${em}</div><div style="flex:1"><div class="speaker">${name}</div><p>${text}</p><div class="choices" id="npcChoices"></div></div></div><hr><button class="btn secondary" onclick="closeModal()">離開</button>`;acts.forEach(a=>{const b=document.createElement('button');b.className='choice';b.textContent=a[0];b.onclick=a[1];q('npcChoices').appendChild(b)});q('modal').classList.add('show')}
+function closeModal(){q('modal').classList.remove('show')}
+function talkGrandpa(){openNPC('👴','林阿公','「我的褲子咧？我不可能只穿內褲出來啦！」',[['A｜你記得褲子長什麼樣子嗎？',()=>{G.c+=2;closeModal();setD('林阿公','「深色的啦！長褲啦！」')}],['B｜你最後一次看到褲子是什麼時候？',()=>{G.c+=2;closeModal();setD('林阿公','「我出門就有穿啊！一定是在這裡不見的。」')}],['C｜為什麼你一定要找到那件褲子？',()=>{G.w+=2;addEv('valuables');closeModal();setD('林阿公','「啊我不可能穿內褲出門啊！<br><strong>我的證件跟錢都在裡面啦！</strong>」')}],['多問一句｜阿公，你今天怎麼來醫院的？',()=>{G.w++;G.c++;G.taxiAsked=true;G.emsUnlocked=true;addEv('taxi');q('roomEMS').classList.remove('locked');closeModal();setD('林阿公','「我坐計程車來的啊！」<br><br><strong>🔎 NEW CLUE：阿公口供</strong><br>🚑 119 資料室已解鎖。')}]])}
+function attemptTheory(){clickS();if(!G.theoryUnlocked){setD('系統','推理室尚未解鎖。你至少需要：護理紀錄、阿公「計程車」口供，以及 119 紀錄。');return}show('theory')}
+function pickTheory(i){clickS();if(i===0)G.c+=2;if(i===1)G.c++;if(i===2)G.a++;const r=q('theoryResult');r.style.display='block';r.innerHTML=`你選擇了可能的遺失環節。<br><br>但 119 紀錄出現更大的矛盾：<strong>到院衣著：內褲｜隨身物品：健保卡一張。</strong><br><br><button class="btn" onclick="revealTruth()">查看關鍵證詞</button>`}
+function revealTruth(){okS();q('modalBox').innerHTML=`<div class="npc"><div class="avatar">👩</div><div><div class="speaker">長照照服員</div><p>「我聯絡 119 的時候，他就只有穿內褲。身上只有一張健保卡。」</p></div></div><div class="notice warn"><strong>那件大家找了 20 分鐘的褲子——從來沒有進過急診。</strong></div><button class="btn" onclick="closeModal();show('fakeSolved')">結案</button>`;q('modal').classList.add('show')}
+function tryExit(){clickS();setTimeout(()=>{errS();q('glitch').classList.add('show');document.body.classList.add('shake')},250);setTimeout(()=>{q('glitch').classList.remove('show');document.body.classList.remove('shake');show('reopen')},2400)}
+function urineChoice(t){clickS();if(t==='action')G.a+=3;if(t==='clue')G.c+=3;if(t==='aware')G.w+=3;const r=q('urineResult');r.style.display='block';if(t==='action')r.innerHTML='→ 阿公最後尿床。<br><br>處置完成了，但你仍不知道他真正想要的是什麼。';if(t==='clue')r.innerHTML='→ 阿公繼續拉扯尿套。<br><br>你注意到了「行為」，但還沒問出「需求」。';if(t==='aware')r.innerHTML='👴「對啦！我要去尿尿。」<br><br><strong>🔎 NEW INFORMATION</strong><br>「我要尿尿」 ≠ 「我要一個可以排尿的裝置」';r.innerHTML+=`<br><br><button class="btn" onclick="startNeeds()">重新整理所有線索</button>`}
+const clues=['我要尿尿','一直拉尿套','尿床','更換手術衣＋尿布','我要我的褲子','錢跟證件都在裡面','我坐計程車來的','實際由119送來','家屬不理','醫師：可以出院'],zones=['排泄','衣著／尊嚴','財物','認知／安全感','返家／支持'];
+function startNeeds(){
+ show('needs');q('cluePool').innerHTML='';q('needZones').innerHTML='';
+ G.dragged=0;G.zonesUsed.clear();G.selectedClue=null;G.clueAssignments={};
+ clues.forEach((c,i)=>{
+   let d=document.createElement('div');d.className='clueChip';d.textContent=c;d.dataset.id=i;
+   d.onclick=()=>selectClue(i);q('cluePool').appendChild(d)
+ });
+ zones.forEach((z,i)=>{
+   let d=document.createElement('div');d.className='zone zoneTap';d.dataset.zone=i;
+   d.innerHTML=`<strong>${z}<span class="zoneCount" id="zc${i}">0</span></strong><div class="small muted">點這裡放入剛選的線索</div><div id="zoneItems${i}"></div>`;
+   d.onclick=()=>assignSelected(i);q('needZones').appendChild(d)
+ })
+}
+function selectClue(i){
+ G.selectedClue=i;
+ document.querySelectorAll('.clueChip').forEach(x=>x.classList.toggle('selectedClue',Number(x.dataset.id)===i));
+ tone(560,.05);toast('已選線索：'+clues[i]+' → 請點需求框')
+}
+function assignSelected(zone){
+ if(G.selectedClue===null){toast('請先點選一個案件線索');errorS();return}
+ const id=G.selectedClue, old=G.clueAssignments[id];
+ G.clueAssignments[id]=zone;
+ if(old===undefined)G.dragged++;
+ G.zonesUsed=new Set(Object.values(G.clueAssignments).map(Number));
+ renderAssignments();
+ G.selectedClue=null;document.querySelectorAll('.clueChip').forEach(x=>x.classList.remove('selectedClue'));
+ tone(720,.05);toast('線索已歸入「'+zones[zone]+'」');
+ q('finishDragBtn').disabled=!(G.dragged>=5&&G.zonesUsed.size>=3)
+}
+function renderAssignments(){
+ zones.forEach((z,zi)=>{
+   const ids=Object.keys(G.clueAssignments).filter(k=>Number(G.clueAssignments[k])===zi);
+   q('zc'+zi).textContent=ids.length;
+   q('zoneItems'+zi).innerHTML=ids.map(id=>`<span class="clueChip" style="display:inline-block;margin:4px;font-size:12px">${clues[id]}</span>`).join('')
+ });
+ document.querySelectorAll('#cluePool .clueChip').forEach(ch=>{
+   const assigned=G.clueAssignments[ch.dataset.id]!==undefined;
+   ch.style.opacity=assigned?'.55':'1';
+   ch.title=assigned?'已分類，可點選後改分類':''
+ })
+}
+function finishDrag(){G.w+=Math.min(4,G.zonesUsed.size);show('discharge')}
+function dischargePick(v){clickS();if(v==='yes'){G.a+=2;show('badEnding');return}G.w+=2;const f=q('dischargeFollow');f.style.display='block';f.innerHTML=`<strong>請指出至少 3 個尚未解決的問題：</strong><br><br>${['排泄需求','衣著／尊嚴','財物問題','認知狀態','病人對目前狀況的理解','返家方式','照顧支持'].map(x=>`<label style="display:block;margin:8px 0"><input type="checkbox" class="checkNeed"> ${x}</label>`).join('')}<br><button class="btn" onclick="submitNeeds()">提交</button>`}
+function submitNeeds(){const n=document.querySelectorAll('.checkNeed:checked').length;if(n<3){errS();alert('至少選 3 項。');return}G.w+=n>=5?3:2;buildProfile()}
+function badRecovery(){show('discharge');setTimeout(()=>dischargePick('no'),120)}
+function buildProfile(){show('profile');const a=G.a,c=G.c,w=G.w,m=Math.max(a,c,w,1);q('aVal').textContent=a;q('cVal').textContent=c;q('wVal').textContent=w;setTimeout(()=>{q('aBar').style.width=a/m*100+'%';q('cBar').style.width=c/m*100+'%';q('wBar').style.width=w/m*100+'%'},200);let title='',body='';const vals=[['a',a],['c',c],['w',w]].sort((x,y)=>y[1]-x[1]);if(Math.max(a,c,w)-Math.min(a,c,w)<=2){title='⚡🔍🧭 六邊形護理師';body='能做、能查、也會停下來想一下。<br><br><strong>本局最大危險：</strong>開始覺得自己沒有弱點。<br>🕵️ 系統提醒：這通常就是下一個線索。'}else if(a>=c-1&&c>w+2){title='🏃‍♂️🔍 邊跑邊查型';body='手已經開始做，腦袋也沒有停止辦案。急診非常需要這種速度。<br><br><strong>唯一的問題：</strong>病人可能還沒來得及把下一句講完。'}else if(c>=a&&w>=a&&Math.abs(c-w)<=2){title='🔍🧭 急診柯南型';body='你不只覺得哪裡怪怪的，也知道該往哪裡查。<br><br>但請注意：急診不是每一床都需要拍成 12 集連續劇。'}else if(vals[0][0]==='a'){title='⚡ 行動派護理師';body='「先處理再說！」<br><br>你的強項是看到事情就動手，Order、處置、流程通常跑得很快。<br><br><strong>超能力：</strong>執行力 ★★★★★<br><strong>容易漏掉：</strong>等等，他為什麼一直這樣？<br><br>🕵️ 破案提示：偶爾慢 10 秒，可能省下後面 20 分鐘。'}else if(vals[0][0]==='c'){title='🔍 搜證派護理師';body='「一定有哪裡不對。」<br><br>你不太接受表面答案，會找紀錄、問人、追線索。<br><br><strong>超能力：</strong>線索敏感度 ★★★★★<br><strong>容易卡住：</strong>線索越找越多，但現在最需要處理的是哪一件？<br><br>🕵️ 破案提示：不是每個謎團，都需要查到底才可以先做點什麼。'}else{title='🧭 導航派護理師';body='「先看看現在最重要的是什麼。」<br><br>你會在處置、病人需求與安全之間切換。<br><br><strong>超能力：</strong>優先排序 ★★★★★<br><strong>容易忽略：</strong>判斷太快時，也可能以為自己已經知道答案。<br><br>🕵️ 破案提示：方向找對了，也別忘了問當事人。'}q('profileCard').innerHTML=`<h2>${title}</h2><p>${body}</p>`;G.roleTitle=title.replace(/<[^>]*>/g,'');okS()}
+
+function saveRoleCard(){
+ const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d');
+ x.fillStyle='#0b1420';x.fillRect(0,0,c.width,c.height);
+ x.fillStyle='#60d6ff';x.font='bold 38px sans-serif';x.fillText('ED CASE FILES｜消失的外褲',70,95);
+ x.fillStyle='#ffffff';x.font='bold 66px sans-serif';x.fillText(G.roleTitle||'護理偵探',70,210);
+ x.fillStyle='#91a5b7';x.font='34px sans-serif';x.fillText('我的急診偵探屬性',70,280);
+ const vals=[['ACTION 行動力',G.a],['CLUE 線索力',G.c],['AWARE 覺察力',G.w]];
+ const mx=Math.max(G.a,G.c,G.w,1);
+ vals.forEach((v,i)=>{
+   const y=400+i*150;x.fillStyle='#edf5fb';x.font='bold 38px sans-serif';x.fillText(v[0]+'  '+v[1],70,y);
+   x.fillStyle='#152535';x.fillRect(70,y+35,880,34);x.fillStyle='#60d6ff';x.fillRect(70,y+35,880*v[1]/mx,34)
+ });
+ x.fillStyle='#ffd166';x.font='bold 40px sans-serif';x.fillText('本案提示',70,890);
+ x.fillStyle='#ffffff';x.font='bold 48px sans-serif';x.fillText('多問一句。',70,965);
+ x.fillStyle='#91a5b7';x.font='32px sans-serif';x.fillText('有時候，線索不在床底，',70,1050);x.fillText('在病人還沒說完的下一句。',70,1100);
+ x.fillStyle='#53697b';x.font='26px sans-serif';x.fillText('急診護理主動照護｜護理偵探小遊戲',70,1250);
+ const a=document.createElement('a');a.download='我的護理偵探角色卡.png';a.href=c.toDataURL('image/png');a.click();toast('角色卡已產生')
+}
+async function shareResult(){
+ const msg=`我在《消失的外褲》急診偵探遊戲中是：${G.roleTitle||'護理偵探'}！ ACTION ${G.a} / CLUE ${G.c} / AWARE ${G.w}`;
+ try{
+   if(navigator.share){await navigator.share({title:'我的護理偵探類型',text:msg});}
+   else{await navigator.clipboard.writeText(msg);toast('結果已複製，可貼到群組');}
+ }catch(e){toast('已取消分享')}
+}
+
+function finalEnding(){show('goodEnding');okS()}
+</script>
+</body></html>
