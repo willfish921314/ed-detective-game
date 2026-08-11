@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>急診未解事件：消失的外褲｜手機現場版 v2</title>
+<title>急診未解事件：消失的外褲｜手機現場版 v5</title>
 <style>
 :root{--bg:#081019;--panel:#111923;--line:#294057;--txt:#edf5fb;--muted:#91a5b7;--cyan:#60d6ff;--green:#5ee58f;--yellow:#ffd166;--red:#ff6b6b;--purple:#b794f6}
 *{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at 20% 0,#142536,#081019 48%,#05090e);color:var(--txt);font-family:"Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;min-height:100%}
@@ -100,7 +100,7 @@ body{min-height:100vh}.app{max-width:1280px;margin:auto;padding:18px}.topbar{dis
   <span class="stepText" id="stepText">案件開始</span>
   <div class="track"><div id="stepBar"></div></div>
 </div>
-<div class="topbar"><div class="brand">ED CASE FILES<small>急診未解事件・單機密室逃脫版</small></div><div class="topActions"><div class="pill">CASE 02</div><button class="iconBtn" id="soundBtn" onclick="toggleSound()">🔊</button></div></div>
+<div class="topbar"><div class="brand">ED CASE FILES<small>急診未解事件・手機現場版 v5</small></div><div class="topActions"><div class="pill">CASE 02</div><button class="iconBtn" id="soundBtn" onclick="toggleSound()">🔊</button></div></div>
 
 <section id="start" class="screen active"><div class="panel hero"><div class="heroText">
 <div class="kicker">Emergency Mystery</div><h1>消失的外褲</h1>
@@ -142,9 +142,51 @@ body{min-height:100vh}.app{max-width:1280px;margin:auto;padding:18px}.topbar{dis
 
 <section id="fakeSolved" class="screen"><div class="panel ending"><div><div class="kicker">CASE SOLVED</div><h1>《消失的外褲》</h1><p style="font-size:22px">真相：<strong>阿公到院時就沒有外褲。</strong></p><div class="notice ok" style="text-align:left;max-width:660px;margin:18px auto">✓ 急診沒有弄丟褲子<br>✓ 阿公的記憶與事實不符<br>✓ 財物並非於急診遺失</div><button class="btn good" onclick="tryExit()">【離開遊戲】</button></div></div></section>
 
-<section id="reopen" class="screen"><div class="panel"><div class="kicker">CASE REOPENED</div><h2>第四幕｜你真的破案了嗎？</h2><p>時間軸正在倒轉……</p><div class="timeline"><span class="timechip">18:42 119送入</span><span class="timechip">18:55 尿套</span><span class="timechip">19:40 拉扯尿套</span><span class="timechip">20:10 尿床</span><span class="timechip">21:50 可離院</span></div><div class="notice"><strong>19:40</strong><br>林阿公坐起、正在拉尿套。<br><br>👴「我要尿尿。」</div><h3>你會怎麼處理？</h3><div class="choices"><button class="choice" onclick="urineChoice('action')">A｜「阿公，你有尿套，直接尿就好了。」</button><button class="choice" onclick="urineChoice('clue')">B｜「不要再拉了，這個就是讓你尿尿用的。」</button><button class="choice" onclick="urineChoice('aware')">C｜「你是不是想起來去廁所？」</button></div><div id="urineResult" class="notice" style="display:none"></div></div></section>
+<section id="reopen" class="screen">
+    <div class="panel">
+      <div class="kicker">CASE REOPENED</div>
+      <h2>第四幕｜你真的破案了嗎？</h2>
+      <p>時間軸正在倒轉……</p>
+
+      <div class="timeline">
+        <span class="timechip">18:42　119送入</span>
+        <span class="timechip">18:55　尿套</span>
+        <span class="timechip" style="border-color:var(--yellow);color:var(--yellow)">19:40　拉扯尿套</span>
+        <span class="timechip">20:10　尿床</span>
+        <span class="timechip">21:50　可離院</span>
+      </div>
+
+      <div class="notice">
+        <strong>⏪ 19:40</strong><br><br>
+        林阿公反覆坐起、正在拉扯尿套。<br><br>
+        👴「我要尿尿啦！」
+      </div>
+
+      <h3>你會怎麼處理？</h3>
+      <div class="choices">
+        <button class="choice" onclick="urineChoice('action')">
+          A｜「阿公，你有尿套，直接尿就好了。」
+        </button>
+        <button class="choice" onclick="urineChoice('clue')">
+          B｜先看看尿套是不是有問題。
+        </button>
+        <button class="choice" onclick="urineChoice('aware')">
+          C｜「阿公，你是想起來去廁所嗎？」
+        </button>
+      </div>
+
+      <div id="urineResult" class="notice hidden"></div>
+    </div>
+  </section>
 
 <section id="needs" class="screen"><div class="panel"><div class="kicker">Reassessment</div><h2>第五幕｜重新調查「阿公的需求」</h2><div class="notice">原本任務：<s>🔍 外褲在哪裡？</s><br>現在任務：<strong>🔍 阿公真正沒有被解決的是什麼？</strong></div>
+<div class="notice warn">
+<strong>🧩 WAIT...</strong><br><br>
+阿公說：「我要尿尿。」→ 我們先處理了<strong>尿套</strong>。<br>
+阿公說：「我要褲子。」→ 我們開始<strong>找褲子</strong>。<br><br>
+兩次，我們都很快開始做事。<br>
+<strong>但他真正擔心的是什麼？</strong>
+</div>
 <p class="mobileHint">📱 手機玩法：先點一張「案件線索」，再點下面最相關的「需求框」。選錯也可以重新選。</p>
 <p>請把至少 <strong>5 個線索</strong>放入至少 <strong>3 種需求</strong>。這不是考試，重點是你怎麼整理眼前資訊。</p>
 <div class="notice" id="classifyProgress">📌 目前：已分類 <strong>0 / 5</strong> 個線索｜使用 <strong>0 / 3</strong> 種需求</div>
@@ -190,21 +232,119 @@ function attemptTheory(){clickS();if(!G.theoryUnlocked){setD('系統','推理室
 function pickTheory(i){clickS();if(i===0)G.c+=2;if(i===1)G.c++;if(i===2)G.a++;const r=q('theoryResult');r.style.display='block';r.innerHTML=`你選擇了可能的遺失環節。<br><br>但 119 紀錄出現更大的矛盾：<strong>到院衣著：內褲｜隨身物品：健保卡一張。</strong><br><br><button class="btn" onclick="revealTruth()">查看關鍵證詞</button>`}
 function revealTruth(){okS();q('modalBox').innerHTML=`<div class="npc"><div class="avatar">👩</div><div><div class="speaker">長照照服員</div><p>「我聯絡 119 的時候，他就只有穿內褲。身上只有一張健保卡。」</p></div></div><div class="notice warn"><strong>那件大家找了 20 分鐘的褲子——從來沒有進過急診。</strong></div><button class="btn" onclick="closeModal();show('fakeSolved')">結案</button>`;q('modal').classList.add('show')}
 function tryExit(){clickS();setTimeout(()=>{errS();q('glitch').classList.add('show');document.body.classList.add('shake')},250);setTimeout(()=>{q('glitch').classList.remove('show');document.body.classList.remove('shake');show('reopen')},2400)}
-function urineChoice(t){clickS();if(t==='action')G.a+=3;if(t==='clue')G.c+=3;if(t==='aware')G.w+=3;const r=q('urineResult');r.style.display='block';if(t==='action')r.innerHTML='→ 阿公最後尿床。<br><br>處置完成了，但你仍不知道他真正想要的是什麼。';if(t==='clue')r.innerHTML='→ 阿公繼續拉扯尿套。<br><br>你注意到了「行為」，但還沒問出「需求」。';if(t==='aware')r.innerHTML='👴「對啦！我要去尿尿。」<br><br><strong>🔎 NEW INFORMATION</strong><br>「我要尿尿」 ≠ 「我要一個可以排尿的裝置」';r.innerHTML+=`<br><br><button class="btn" onclick="startNeeds()">重新整理所有線索</button>`}
-const clues=['我要尿尿','一直拉尿套','尿床','更換手術衣＋尿布','我要我的褲子','錢跟證件都在裡面','我坐計程車來的','實際由119送來','家屬不理','醫師：可以出院'],zones=['排泄','衣著／尊嚴','財物','認知／安全感','返家／支持'];
-function startNeeds(){
- show('needs');q('cluePool').innerHTML='';q('needZones').innerHTML='';
- G.dragged=0;G.zonesUsed.clear();G.selectedClue=null;G.clueAssignments={};
- clues.forEach((c,i)=>{
-   let d=document.createElement('div');d.className='clueChip';d.textContent=c;d.dataset.id=i;
-   d.onclick=()=>selectClue(i);q('cluePool').appendChild(d)
- });
- zones.forEach((z,i)=>{
-   let d=document.createElement('div');d.className='zone zoneTap';d.dataset.zone=i;
-   d.innerHTML=`<strong>${z}<span class="zoneCount" id="zc${i}">0</span></strong><div class="small muted">點這裡放入剛選的線索</div><div id="zoneItems${i}"></div>`;
-   d.onclick=()=>assignSelected(i);q('needZones').appendChild(d)
- })
+function urineChoice(t){
+ clickS();
+
+ if(t==='action') G.a+=3;
+ if(t==='clue') G.c+=3;
+ if(t==='aware') G.w+=3;
+
+ const r=q('urineResult');
+ r.classList.remove('hidden');
+
+ if(t==='action'){
+   r.innerHTML=`
+     <div class="kicker">ACTION</div>
+     <strong>✓ 排尿裝置：已有</strong><br><br>
+     你告訴阿公可以直接使用尿套。<br><br>
+     但阿公仍然坐起、反覆拉扯尿套。<br><br>
+     👴「我要起來尿啦！」<br><br>
+     <span class="muted">處置已經有了，但他的行為沒有停止。</span>
+   `;
+ }
+
+ if(t==='clue'){
+   r.innerHTML=`
+     <div class="kicker">CHECKING...</div>
+     你重新檢查尿套。<br><br>
+     ✓ 位置正常<br>
+     ✓ 沒有明顯阻塞<br>
+     ✓ 裝置仍在作用<br><br>
+     👴「我要起來尿啦！」<br><br>
+     <strong>🔎 NEW CLUE：器材沒有明顯問題。</strong>
+   `;
+ }
+
+ if(t==='aware'){
+   r.innerHTML=`
+     <div class="kicker">NEW INFORMATION</div>
+     👩‍⚕️「阿公，你是想起來去廁所嗎？」<br><br>
+     👴「對啦！我要起來尿啦！」<br><br>
+     <strong>🔎 NEW CLUE</strong><br><br>
+     尿套解決了「<strong>怎麼排尿</strong>」。<br>
+     但阿公說的，可能是「<strong>我想怎麼尿</strong>」。
+   `;
+ }
+
+ r.innerHTML+=`
+   <div class="notice warn" style="margin-top:18px">
+     <strong>同一句「我要尿尿」，<br>
+     你和阿公想到的是同一件事嗎？</strong>
+   </div>
+   <button class="btn" onclick="startNeeds()">帶著這條線索，重新整理案件</button>
+ `;
 }
+
+
+const clues=[
+  '我要尿尿',
+  '一直拉尿套',
+  '尿床',
+  '更換手術衣＋尿布',
+  '我要我的褲子',
+  '錢跟證件都在裡面',
+  '我坐計程車來的',
+  '實際由119送來',
+  '家屬沒有出現',
+  '醫師：可以出院'
+];
+
+const zones=[
+  '排泄',
+  '衣著／尊嚴',
+  '財物',
+  '認知／安全感',
+  '返家／支持'
+];
+
+function startNeeds(){
+ show('needs');
+ q('cluePool').innerHTML='';
+ q('needZones').innerHTML='';
+
+ G.dragged=0;
+ G.zonesUsed.clear();
+ G.selectedClue=null;
+ G.clueAssignments={};
+
+ const p=q('classifyProgress');
+ if(p){
+   p.innerHTML='📌 目前：已分類 <strong>0 / 5</strong> 個線索｜使用 <strong>0 / 3</strong> 種需求';
+ }
+
+ clues.forEach((c,i)=>{
+   const d=document.createElement('div');
+   d.className='clueChip';
+   d.textContent=c;
+   d.dataset.id=i;
+   d.onclick=()=>selectClue(i);
+   q('cluePool').appendChild(d);
+ });
+
+ zones.forEach((z,i)=>{
+   const d=document.createElement('div');
+   d.className='zone zoneTap';
+   d.dataset.zone=i;
+   d.innerHTML=`<strong>${z}<span class="zoneCount" id="zc${i}">0</span></strong>
+   <div class="small muted">點這裡放入剛選的線索</div>
+   <div id="zoneItems${i}"></div>`;
+   d.onclick=()=>assignSelected(i);
+   q('needZones').appendChild(d);
+ });
+
+ q('finishDragBtn').disabled=true;
+}
+
 function selectClue(i){
  G.selectedClue=i;
  document.querySelectorAll('.clueChip').forEach(x=>x.classList.toggle('selectedClue',Number(x.dataset.id)===i));
@@ -213,7 +353,7 @@ function selectClue(i){
 function assignSelected(zone){
  if(G.selectedClue===null){
    toast('請先點上方一個案件線索');
-   errorS();
+   errS();
    return;
  }
  const id=G.selectedClue;
@@ -264,7 +404,7 @@ function finishDrag(){
  G.zonesUsed=new Set(Object.values(G.clueAssignments).map(Number));
  if(G.dragged<5 || G.zonesUsed.size<3){
    toast(`還差：${Math.max(0,5-G.dragged)} 個線索／${Math.max(0,3-G.zonesUsed.size)} 種需求`);
-   errorS();
+   errS();
    return;
  }
  G.w+=Math.min(4,G.zonesUsed.size);
