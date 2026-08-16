@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>急診未解事件：消失的外褲｜手機現場版 v5</title>
+<title>急診未解事件：消失的外褲｜手機現場版 v5.3</title>
 <style>
 :root{--bg:#081019;--panel:#111923;--line:#294057;--txt:#edf5fb;--muted:#91a5b7;--cyan:#60d6ff;--green:#5ee58f;--yellow:#ffd166;--red:#ff6b6b;--purple:#b794f6}
 *{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at 20% 0,#142536,#081019 48%,#05090e);color:var(--txt);font-family:"Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;min-height:100%}
@@ -100,7 +100,7 @@ body{min-height:100vh}.app{max-width:1280px;margin:auto;padding:18px}.topbar{dis
   <span class="stepText" id="stepText">案件開始</span>
   <div class="track"><div id="stepBar"></div></div>
 </div>
-<div class="topbar"><div class="brand">ED CASE FILES<small>急診未解事件・手機現場版 v5</small></div><div class="topActions"><div class="pill">CASE 02</div><button class="iconBtn" id="soundBtn" onclick="toggleSound()">🔊</button></div></div>
+<div class="topbar"><div class="brand">ED CASE FILES<small>急診未解事件・手機現場版 v5.3</small></div><div class="topActions"><div class="pill">CASE 02</div><button class="iconBtn" id="soundBtn" onclick="toggleSound()">🔊</button></div></div>
 
 <section id="start" class="screen active"><div class="panel hero"><div class="heroText">
 <div class="kicker">Emergency Mystery</div><h1>消失的外褲</h1>
@@ -192,6 +192,34 @@ body{min-height:100vh}.app{max-width:1280px;margin:auto;padding:18px}.topbar{dis
 <div class="notice" id="classifyProgress">📌 目前：已分類 <strong>0 / 5</strong> 個線索｜使用 <strong>0 / 3</strong> 種需求</div>
 <div class="dragArea"><div><h3>① 點選案件線索</h3><div class="cluePool" id="cluePool"></div></div><div><h3>② 再點需求框</h3><div class="needZones" id="needZones"></div></div></div><hr><button class="btn" id="finishDragBtn" onclick="finishDrag()" disabled>完成重新調查</button><div class="small muted" style="margin-top:8px">按鈕會在「5 個線索＋3 種需求」完成後自動解鎖。</div></div></section>
 
+<section id="caseUpdate" class="screen">
+<div class="panel">
+  <div class="kicker">CASE UPDATE</div>
+  <h2>🧩 重新整理後，再看一次這兩句話。</h2>
+  <div class="evidence">
+    <div class="card">
+      <div class="tag">19:40</div>
+      <h3>👴「我要尿尿。」</h3>
+      <p>我們的回應：已經有尿套，可以排尿。</p>
+      <p class="muted">後來才聽到：「我要起來尿啦！」</p>
+    </div>
+    <div class="card">
+      <div class="tag">21:50 後</div>
+      <h3>👴「我要我的褲子。」</h3>
+      <p>我們的回應：開始幫忙找褲子。</p>
+      <p class="muted">再確認後才知道：「我的錢跟證件都在裡面啦！」</p>
+    </div>
+  </div>
+  <div class="notice warn" style="margin-top:22px;text-align:center">
+    <div style="font-size:18px">我們不是沒有回應。</div>
+    <div style="font-size:clamp(24px,6vw,38px);font-weight:1000;margin-top:12px">
+      但病人的需求，有被接住嗎？
+    </div>
+  </div>
+  <button class="btn" onclick="show('discharge')">回到 21:50</button>
+</div>
+</section>
+
 <section id="discharge" class="screen"><div class="panel"><div class="kicker">Final Clinical Scene</div><h2>🕙 21:50　醫師：「可以回家了。」</h2><div class="notice warn">床上的林阿公：<br>・穿手術衣＋尿布<br>・沒有外褲<br>・沒有錢<br>・只有健保卡<br>・堅信自己的褲子在急診不見<br>・家屬沒有出現</div><h2>【現在，你會按下「完成出院」嗎？】</h2><div class="choices"><button class="choice" onclick="dischargePick('yes')">A｜會。醫師已經評估可以出院，治療完成。</button><button class="choice" onclick="dischargePick('no')">B｜不會。目前還有需要進一步確認／處理的問題。</button></div><div id="dischargeFollow" class="notice" style="display:none"></div></div></section>
 
 <section id="profile" class="screen"><div class="panel"><div class="kicker">Detective Profile</div><h2>🕵️ 系統正在分析你的辦案紀錄……</h2><div class="bars"><div><div style="display:flex;justify-content:space-between"><span>⚡ ACTION 行動力</span><strong id="aVal"></strong></div><div class="bar"><div id="aBar"></div></div></div><div><div style="display:flex;justify-content:space-between"><span>🔍 CLUE 線索力</span><strong id="cVal"></strong></div><div class="bar"><div id="cBar"></div></div></div><div><div style="display:flex;justify-content:space-between"><span>🧭 AWARE 覺察力</span><strong id="wVal"></strong></div><div class="bar"><div id="wBar"></div></div></div></div><div id="profileCard" class="roleCard"></div>
@@ -201,7 +229,30 @@ body{min-height:100vh}.app{max-width:1280px;margin:auto;padding:18px}.topbar{dis
   <button class="btn" onclick="finalEnding()">查看最終結局</button>
 </div></div></section>
 
-<section id="goodEnding" class="screen"><div class="panel ending caseClosed"><div><div class="kicker">CASE CLOSED</div><h1>👖 褲子：沒來過<br>💰 錢：沒來過<br>🚕 計程車：也沒來過</h1><div class="notice ok" style="max-width:670px;margin:auto"><strong>本案最大線索：</strong><br><br><span style="font-size:28px">多問一句。</span></div><p style="font-size:22px">有時候，線索不在床底，<br><strong>在病人還沒說完的下一句。</strong></p><button class="btn secondary" onclick="location.reload()">重新開始</button></div></div></section>
+<section id="goodEnding" class="screen">
+<div class="panel ending">
+  <div>
+    <div class="kicker">CASE CLOSED</div>
+    <h1>《消失的外褲》</h1>
+
+    <div style="max-width:720px;margin:32px auto;text-align:left">
+      <div class="notice">
+        <strong>我們不是沒有回應。</strong>
+      </div>
+
+      <div class="evidence" style="margin-top:18px">
+        <div class="card"><h3>✓ 尿套用了</h3></div>
+        <div class="card"><h3>✓ 衣服換了</h3></div>
+        <div class="card"><h3>✓ 褲子也找了</h3></div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
+      <button class="btn secondary" onclick="location.reload()">重新開始</button>
+    </div>
+  </div>
+</div>
+</section>
 
 <section id="badEnding" class="screen"><div class="panel ending badEnding"><div><div class="kicker" style="color:var(--red)">BAD ENDING</div><h1>🚪 出院流程已完成</h1><div class="notice bad" style="max-width:690px;margin:auto;text-align:left">醫療處置結束了，但林阿公仍沒有外褲、沒有錢、對事件認知不一致，也沒有明確返家支持。</div><p>你完成了流程。<br><strong>但這個案件，還沒有真正結束。</strong></p><button class="btn" onclick="badRecovery()">重新檢視最後一幕</button></div></div></section>
 </div>
@@ -408,7 +459,7 @@ function finishDrag(){
    return;
  }
  G.w+=Math.min(4,G.zonesUsed.size);
- show('discharge');
+ show('caseUpdate');
 }
 function dischargePick(v){clickS();if(v==='yes'){G.a+=2;show('badEnding');return}G.w+=2;const f=q('dischargeFollow');f.style.display='block';f.innerHTML=`<strong>請指出至少 3 個尚未解決的問題：</strong><br><br>${['排泄需求','衣著／尊嚴','財物問題','認知狀態','病人對目前狀況的理解','返家方式','照顧支持'].map(x=>`<label style="display:block;margin:8px 0"><input type="checkbox" class="checkNeed"> ${x}</label>`).join('')}<br><button class="btn" onclick="submitNeeds()">提交</button>`}
 function submitNeeds(){const n=document.querySelectorAll('.checkNeed:checked').length;if(n<3){errS();alert('至少選 3 項。');return}G.w+=n>=5?3:2;buildProfile()}
@@ -433,6 +484,7 @@ function saveRoleCard(){
  x.fillStyle='#53697b';x.font='26px sans-serif';x.fillText('急診護理主動照護｜護理偵探小遊戲',70,1250);
  const a=document.createElement('a');a.download='我的護理偵探角色卡.png';a.href=c.toDataURL('image/png');a.click();toast('角色卡已產生')
 }
+
 async function shareResult(){
  const msg=`我在《消失的外褲》急診偵探遊戲中是：${G.roleTitle||'護理偵探'}！ ACTION ${G.a} / CLUE ${G.c} / AWARE ${G.w}`;
  try{
